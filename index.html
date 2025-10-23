@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Royal-4Store | معرض فاخر</title>
+  <meta name="description" content="تصفح قطع Royal-4Store الراقية بأسلوب iOS أنيق." />
+  <meta property="og:title" content="Royal-4Store" />
+  <meta property="og:description" content="معرض فاخر بتجربة iOS عربية." />
+  <meta property="og:image" content="https://images.unsplash.com/photo-1549187774-b4e9b0445b41?auto=format&fit=crop&w=800&q=80&fm=webp" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="splash" class="splash" aria-hidden="true">
+    <div class="splash-content">
+      <div class="royal-logo" aria-label="Royal-4Store">
+        <span>Royal</span><span>4</span><span>Store</span>
+      </div>
+      <button class="skip" type="button">تخطي</button>
+    </div>
+  </div>
+
+  <div id="app" class="app" hidden>
+    <header class="app-header" aria-live="polite">
+      <div class="header-large">
+        <button class="back-button" type="button" aria-label="رجوع"></button>
+        <div>
+          <p class="overline">مرحبا بك</p>
+          <h1 class="page-title">معرض Royal-4Store</h1>
+        </div>
+        <button class="header-action" type="button" aria-label="الإشعارات">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22a2 2 0 0 0 2-2h-4a2 2 0 0 0 2 2zm6-6V11a6 6 0 1 0-12 0v5l-2 2v1h16v-1l-2-2z"/></svg>
+        </button>
+      </div>
+      <div class="segmented" role="tablist" aria-label="تصفية المعرض">
+        <button class="segment active" data-filter="all" role="tab" aria-selected="true">الكل</button>
+        <button class="segment" data-filter="new" role="tab">جديد</button>
+        <button class="segment" data-filter="popular" role="tab">شائع</button>
+      </div>
+      <div class="pull-refresh" aria-hidden="true">
+        <span class="spinner"></span>
+      </div>
+    </header>
+
+    <main class="views">
+      <section id="galleryView" class="view active" aria-label="المعرض">
+        <div class="gallery-grid" id="galleryGrid" aria-live="polite"></div>
+        <button id="loadMore" class="load-more" type="button">عرض المزيد</button>
+      </section>
+
+      <section id="collectionsView" class="view" aria-label="المجموعات">
+        <div class="collection-banner">
+          <h2>مجموعات مختارة</h2>
+          <p>إصدارات قصيرة وأنيقة.</p>
+        </div>
+        <div class="collections-list" id="collectionsList"></div>
+      </section>
+
+      <section id="searchView" class="view" aria-label="البحث">
+        <div class="search-header">
+          <div class="search-field" role="search">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.5 14h-.79l-.28-.27a6.471 6.471 0 0 0 1.57-4.23A6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l4.25 4.25 1.5-1.5L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+            <input type="search" id="searchInput" placeholder="بحث سريع" aria-label="حقل البحث" autocomplete="off">
+          </div>
+          <button class="clear-history" type="button">مسح</button>
+        </div>
+        <div class="search-suggestions">
+          <h3>اقتراحات</h3>
+          <div class="suggestions-list" id="suggestionsList"></div>
+          <h3>آخر عمليات البحث</h3>
+          <div class="recent-list" id="recentList"></div>
+        </div>
+      </section>
+
+      <section id="favoritesView" class="view" aria-label="المفضلة">
+        <div class="gallery-grid favorites-grid" id="favoritesGrid"></div>
+      </section>
+
+      <section id="bagView" class="view" aria-label="الحقيبة">
+        <div class="bag-empty" id="bagEmpty">الحقيبة هادئة الآن.</div>
+        <div class="bag-items" id="bagItems"></div>
+        <div class="bag-footer" id="bagFooter">
+          <div class="bag-total"><span>المجموع</span><strong id="bagTotal">0 ر.س</strong></div>
+          <div class="bag-actions">
+            <button class="pill ghost" type="button">متابعة</button>
+            <button class="pill" type="button">إتمام</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <nav class="tab-bar" aria-label="التنقل السفلي">
+      <button class="tab-button active" data-target="galleryView" aria-label="المعرض">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16v12H4z"/><path d="M9 9h6v6H9z" class="accent"/></svg>
+        <span>معرض</span>
+      </button>
+      <button class="tab-button" data-target="collectionsView" aria-label="المجموعات">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v4H4zm0 6h16v8H4z"/></svg>
+        <span>مجموعات</span>
+      </button>
+      <button class="tab-button" data-target="searchView" aria-label="بحث">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 18a8 8 0 1 1 5.29-14.01L21 9.7 19.6 11l-5.71-5.71A6 6 0 1 0 10 16z"/></svg>
+        <span>بحث</span>
+      </button>
+      <button class="tab-button" data-target="favoritesView" aria-label="المفضلة">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5A5.5 5.5 0 0 1 12 5.09 5.5 5.5 0 0 1 22 8.5c0 3.78-3.4 6.86-8.55 11.54z"/></svg>
+        <span>مفضلة</span>
+      </button>
+      <button class="tab-button" data-target="bagView" aria-label="الحقيبة">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7h12l1 13H5L6 7zm3-3h6v3H9z"/></svg>
+        <span>حقيبة</span>
+      </button>
+    </nav>
+  </div>
+
+  <div class="detail-sheet" id="detailSheet" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="sheet-handle" aria-hidden="true"></div>
+    <button class="sheet-close" type="button" aria-label="إغلاق"></button>
+    <div class="sheet-body">
+      <div class="sheet-media">
+        <img id="detailImage" alt="" loading="lazy" draggable="false">
+        <button class="camera-button" type="button" id="openVisualTry" aria-label="غرفتي">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5l2 2h4a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h4l2-2z"/><circle cx="12" cy="13" r="3"/></svg>
+          <span>غرفتي</span>
+        </button>
+      </div>
+      <div class="sheet-info">
+        <div class="sheet-title">
+          <h2 id="detailTitle"></h2>
+          <span id="detailPrice"></span>
+        </div>
+        <div class="sheet-variations" id="sheetVariations"></div>
+        <div class="sheet-actions">
+          <button class="circle" id="addToBag" type="button" aria-label="أضف إلى الحقيبة">+</button>
+          <button class="circle" id="toggleFavorite" type="button" aria-label="إضافة للمفضلة">♡</button>
+          <button class="circle" id="shareItem" type="button" aria-label="مشاركة">↗</button>
+        </div>
+      </div>
+      <div class="sheet-ai">
+        <div class="ai-header">
+          <span class="badge">AI</span>
+          <button class="info-button" type="button" aria-label="اقتراحات ذكية">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9a10 10 0 1 0 10 10A10 10 0 0 0 12 2z"/></svg>
+          </button>
+          <div class="tooltip" role="tooltip">اقتراحات ذكية</div>
+        </div>
+        <div class="ai-list" id="aiList" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="peek" id="peek" aria-hidden="true">
+    <div class="peek-content">
+      <img id="peekImage" alt="" loading="lazy" draggable="false">
+      <div class="peek-info">
+        <h3 id="peekTitle"></h3>
+        <p id="peekPrice"></p>
+        <div class="peek-buttons">
+          <button type="button" class="pill tiny" data-action="bag">+ حقيبة</button>
+          <button type="button" class="pill tiny" data-action="fav">♡</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="visual-modal" id="visualModal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="visual-layer"></div>
+    <div class="visual-card">
+      <button class="visual-close" type="button" aria-label="إغلاق">×</button>
+      <h2>غرفتي</h2>
+      <p class="privacy">الصورة مؤقتة</p>
+      <div class="visual-steps">
+        <div class="step active" data-step="1">
+          <label class="upload-area">
+            <input type="file" accept="image/*" id="roomUpload" hidden>
+            <span>1. رفع صورة</span>
+          </label>
+        </div>
+        <div class="step" data-step="2">
+          <label>2. الحجم</label>
+          <input type="range" id="scaleRange" min="50" max="150" value="100">
+          <label>الدوران</label>
+          <input type="range" id="rotationRange" min="-30" max="30" value="0">
+        </div>
+        <div class="step" data-step="3">
+          <button class="pill" id="previewVisual" type="button">معاينة</button>
+        </div>
+      </div>
+      <div class="visual-preview" id="visualPreview">
+        <div class="before-after">
+          <img class="before" alt="قبل" id="beforeImage">
+          <div class="slider" id="previewSlider">
+            <div class="slider-handle"></div>
+          </div>
+          <img class="after" alt="بعد" id="afterImage">
+        </div>
+      </div>
+      <div class="visual-actions">
+        <button class="pill ghost" type="button" id="resetVisual">إعادة</button>
+        <button class="pill" type="button" id="saveVisual">حفظ</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
